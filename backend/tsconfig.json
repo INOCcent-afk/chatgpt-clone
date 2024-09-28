@@ -1,13 +1,17 @@
 {
     "compilerOptions": {
-      "target": "ES6",
-      "module": "CommonJS",
-      "rootDir": "src",
+      "module": "NodeNext",
+      "moduleResolution": "NodeNext",
+      "target": "ES2020",
+      "sourceMap": true,
       "outDir": "dist",
+      "strictNullChecks": true,
+      "noImplicitAny": true,
+      "noImplicitReturns": true,
+      "noImplicitThis": true,
       "strict": true,
-      "esModuleInterop": true,
-      "skipLibCheck": true
+      "noUnusedLocals": true,
+      "noUnusedParameters": true,
     },
-    "include": ["src/**/*.ts"],
-    "exclude": ["node_modules"]
+    "include": ["src/**/*"],
   }
