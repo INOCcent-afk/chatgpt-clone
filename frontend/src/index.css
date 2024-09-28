@@ -17,6 +17,24 @@ body {
 	color: var(--brand-light-gray);
 }
 
+::-webkit-scrollbar {
+	width: 8px;
+	background-color: var(--brand-primary);
+}
+
+::-webkit-scrollbar-track {
+	background-color: var(--brand-primary);
+}
+
+::-webkit-scrollbar-thumb {
+	background: #888;
+	border-radius: 16px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: #555;
+}
+
 h1 {
 	@apply scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl;
 }

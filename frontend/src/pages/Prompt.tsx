@@ -9,7 +9,31 @@ export const Prompt = () => {
 
 	return (
 		<div className="relative w-full h-full bg-brand-primary">
-			<div className="w-full mx-auto max-w-[768px] my-14">
+			<div className="flex flex-col gap-4 w-full overflow-y-auto h-[calc(100%-400px)] mx-auto max-w-[768px] my-14">
+				<h1>Hello Guys</h1>
+				<h2>Hello Guys</h2>
+				<h3>Hello Guys</h3>
+				<h4>Hello Guys</h4>
+				<h1>Hello Guys</h1>
+				<h2>Hello Guys</h2>
+				<h3>Hello Guys</h3>
+				<h4>Hello Guys</h4>
+				<h1>Hello Guys</h1>
+				<h2>Hello Guys</h2>
+				<h3>Hello Guys</h3>
+				<h4>Hello Guys</h4>
+				<h1>Hello Guys</h1>
+				<h2>Hello Guys</h2>
+				<h3>Hello Guys</h3>
+				<h4>Hello Guys</h4>
+				<h1>Hello Guys</h1>
+				<h2>Hello Guys</h2>
+				<h3>Hello Guys</h3>
+				<h4>Hello Guys</h4>
+				<h1>Hello Guys</h1>
+				<h2>Hello Guys</h2>
+				<h3>Hello Guys</h3>
+				<h4>Hello Guys</h4>
 				<h1>Hello Guys</h1>
 				<h2>Hello Guys</h2>
 				<h3>Hello Guys</h3>
