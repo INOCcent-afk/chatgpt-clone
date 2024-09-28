@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+	:root {
+		--brand-primary: #232323;
+		--brand-secondary: #171717;
+		--brand-medium-gray: #ececec;
+		--brand-dark-gray: #9b9b9b;
+	}
+}
+
+html,
+body {
+	color: var(--brand-medium-gray);
+}
