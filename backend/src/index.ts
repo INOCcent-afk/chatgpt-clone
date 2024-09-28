@@ -1,5 +1,6 @@
 import express, { Application } from "express";
-import promptRoutes from "./routes/promptRoutes";
+import questionRoutes from "./routes/questionRoutes";
+import conversationRoutes from "./routes/conversationRoutes";
 import cors from "cors";
 import { createTable } from "./database/sqlite";
 
@@ -17,7 +18,7 @@ const PORT = process.env.PORT || 8080;
 
 app.use(express.json());
 
-app.use("/api/prompt", promptRoutes);
+app.use("/api", questionRoutes, conversationRoutes);
 
 app.listen(PORT, () => {
 	console.log(`Server is running on -- ${PORT}`);
