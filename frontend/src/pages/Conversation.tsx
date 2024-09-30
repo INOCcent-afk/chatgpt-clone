@@ -1,11 +1,11 @@
 import { Fragment, useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { PromptInput } from "../ui/PromptInput";
-import { useAskQuestion } from "../apiHooks/useAskQuestion";
 import { useCreateConversation } from "../apiHooks/useCreateConversation";
 import { useConversation } from "../apiHooks/useConversation";
 import { useQueryClient } from "@tanstack/react-query";
 import ScrollToBottom, { useScrollToBottom } from "react-scroll-to-bottom";
+import useStreamResponse from "../apiHooks/useStreamResponse";
 
 export const Conversation = () => {
 	const { conversationId } = useParams();
@@ -13,67 +13,62 @@ export const Conversation = () => {
 	const queryClient = useQueryClient();
 	const scrollToBottom = useScrollToBottom();
 
-	const { mutate: askQuestion, isPending } = useAskQuestion();
 	const { mutate: createConversation } = useCreateConversation();
 	const { data: conversation, refetch } = useConversation({
 		enabled: Boolean(conversationId),
 		id: String(conversationId),
 	});
 
-	const [value, setValue] = useState("");
-
 	const [newFeedbacks, setNewFeedbacks] = useState<
 		{ question: string; answer: string }[]
 	>([]);
 
-	const submit = (e: any) => {
-		if (!value) return;
+	const [sentence, setSentence] = useState("");
 
+	const { startStream, isLoading } = useStreamResponse({
+		streamCallback: (text) => {
+			setNewFeedbacks((prevPairs) => {
+				if (prevPairs.length === 0) return prevPairs;
+
+				const updatedPairs = [...prevPairs];
+				updatedPairs[updatedPairs.length - 1].answer += text;
+
+				return updatedPairs;
+			});
+		},
+	});
+
+	const handleAskQuestion = (e: any) => {
 		e.preventDefault();
 
-		setNewFeedbacks([...newFeedbacks, { question: value, answer: "" }]);
+		if (sentence.trim()) {
+			setNewFeedbacks((prev) => [
+				...prev,
+				{ question: sentence, answer: "" },
+			]);
 
-		if (!conversationId) {
-			createConversation(
-				{
-					question: value,
-				},
-				{
-					onSuccess: (data) => {
-						navigate(`/${data.lastConversationData.id}`);
+			if (!conversationId) {
+				createConversation(
+					{ question: sentence },
+					{
+						onSuccess: (data) => {
+							navigate(`/${data.id}`);
+							queryClient.invalidateQueries({
+								queryKey: ["conversations"],
+							});
+							startStream({
+								question: sentence,
+								conversationId: String(data.id),
+							});
+						},
+					}
+				);
+			} else {
+				startStream({ question: sentence, conversationId });
+			}
 
-						setNewFeedbacks([
-							...newFeedbacks,
-							{
-								answer: data.lastQuestionData.question,
-								question: data.lastQuestionData.answer,
-							},
-						]);
-
-						queryClient.invalidateQueries({
-							queryKey: ["conversations"],
-						});
-					},
-				}
-			);
-		} else {
-			askQuestion(
-				{
-					question: value,
-					conversationId,
-				},
-				{
-					onSuccess: (data) => {
-						setNewFeedbacks([
-							...newFeedbacks,
-							{ answer: data.answer, question: data.question },
-						]);
-					},
-				}
-			);
+			setSentence("");
 		}
-
-		setValue("");
 	};
 
 	useEffect(() => {
@@ -112,7 +107,7 @@ export const Conversation = () => {
 								</p>
 							)}
 
-							{isPending && !feedbacks.answer && (
+							{isLoading && !feedbacks.answer && (
 								<div className="py-2 px-4 bg-brand-medium-gray rounded-3xl w-fit">
 									<div className="loader"></div>
 								</div>
@@ -127,13 +122,13 @@ export const Conversation = () => {
 			</ScrollToBottom>
 
 			<form
-				onSubmit={submit}
+				onSubmit={handleAskQuestion}
 				className="absolute -bottom-10 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[768px]"
 			>
 				<div className="px-4">
 					<PromptInput
-						value={value}
-						onChange={(e) => setValue(e.currentTarget.value)}
+						value={sentence}
+						onChange={(e) => setSentence(e.currentTarget.value)}
 						placeholder="Message OpenAI!"
 					/>
 				</div>

@@ -1,8 +1,3 @@
-export interface ConversationFeedback {
-	lastConversationData: Conversation;
-	lastQuestionData: Question;
-}
-
 export interface Conversation {
 	id: number;
 	name: string;

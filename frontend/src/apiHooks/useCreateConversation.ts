@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
-import { ConversationFeedback } from "../models/OpenAi";
+import { Conversation } from "../models/OpenAi";
 
 interface Props {
 	question: string;
@@ -9,7 +9,7 @@ interface Props {
 export const useCreateConversation = () => {
 	const mutation = useMutation({
 		mutationFn: async (props: Props) => {
-			const { data } = await axios.post<ConversationFeedback>(
+			const { data } = await axios.post<Conversation>(
 				"http://localhost:8080/api/conversations/",
 				props
 			);
