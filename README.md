@@ -57,7 +57,7 @@ Before you begin, ensure you have the following installed:
     ```bash
     cd backend
     yarn dev
-    The backend will run on http://localhost:1543.
+    The backend will run on http://localhost:5173.
 
     ```
 
