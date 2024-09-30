@@ -44,7 +44,7 @@ Before you begin, ensure you have the following installed:
 
 ## Configuration
 
-1. OpenAI API Key: You need to provide your OpenAI API key to use the backend. Create a file named openAI.config.ts in the backend directory and add your key as follows:
+1. OpenAI API Key: You need to provide your OpenAI API key to use the backend. Search for openAI.config.ts in the backend directory and add your key as follows:
 
     ```bash
     export const OPENAI_API_KEY = 'your-openai-api-key';
